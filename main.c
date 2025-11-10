@@ -3,14 +3,16 @@
 
 // o algoritmo deve informar se o numero é par ou impar 
 int main() {
-    int n;
-    printf("Digite um numero");
-    scanf("%d",&n);
+    int m;
+    printf("Digite á média");
+    scanf("%d",&m);
     
-    if (n % 2 == 0){
-        printf("o número digitado é %d --> PAR ",n);
+    if(m > 7){
+        printf("APROVADO COM A MÉDIA: %d ",m);
+    }else if(m >= 4){
+        printf("FAZER PROVA SUBSTITUTIVA MÉDIA: %d ",m);
     }else{
-        printf("número digitado foi %d --> ÍMPAR",n);
+        printf("REPROVADO COM A MÉDIA: %d ",m);
     }
     
     
