@@ -19,41 +19,46 @@ struct Livro{
 int quantidadeLivros = 0;
 void cadastrarLivros(struct Livro acervo[], int tamanho){
       printf("===== CADASTRO DE LIVROS ===== \n");
-      printf("quantos livros deseja cadastrar?\n");
 
-      scanf("%d",&quantidadeLivros);
-      fflush(stdin);
+    do {
+    printf("Quantos livros deseja cadastrar? (max: %d)\n", tamanho);
+    scanf("%d", &quantidadeLivros);
 
+    if (quantidadeLivros < 1 || quantidadeLivros > tamanho) {
+        printf("Valor inválido! Tente novamente.\n");
+    }
+
+} while (quantidadeLivros < 1 || quantidadeLivros > tamanho);
+    
       for (int i = 0; i < quantidadeLivros; i++){
-        printf("Código do livro: ");
-        gets, acervo[i].codigo;
+        printf("Código do livro %d : ",i+1);
+        scanf("%d", &acervo[i].codigo);
+
+        printf("Título do livro %d : ",i+1);
+        scanf("%s", acervo[i].titulo);
         fflush(stdin);
 
-        printf("Título do livro: ");
-        gets, acervo[i].titulo;
+        printf("Autor(a) do livro %d : ",i+1);
+        scanf("%s", acervo[i].autor);
         fflush(stdin);
 
-        printf("Autor(a) do livro: ");
-        gets, acervo[i].autor;
+        printf("Área do livro %d: ",i+1);
+        scanf("%s", acervo[i].area);
         fflush(stdin);
 
-        printf("Área do livro: ");
-        gets, acervo[i].area;
+        printf("Ano do livro %d: ",i+1);
+        scanf("%d", &acervo[i].ano);
         fflush(stdin);
 
-        printf("Ano do livro: ");
-        gets, acervo[i].ano;
-        fflush(stdin);
-
-        printf("Editora do livro: ");
-        gets, acervo[i].editora;
+        printf("Editora do livro %d:",i+1);
+        scanf("%s", acervo[i].editora);
         fflush(stdin);
     }
 };
 
 
 void imprimirLivros(struct Livro acervo[], int tamanho){
-    if (tamanho == 0){
+    if (quantidadeLivros == 0){
         printf("Nenhum livro cadastrado ainda.\n");
         return;
     }
@@ -61,13 +66,13 @@ void imprimirLivros(struct Livro acervo[], int tamanho){
     printf("===== IMPRIMIR LIVROS ===== \n");
 
     for (int i = 0; i < quantidadeLivros; i++){
-        printf("== LIVRO %d == \n",i+1);
-        printf("%d",acervo[i].codigo);
-        printf("%s",acervo[i].titulo);
-        printf("%s",acervo[i].autor);
-        printf("%d",acervo[i].area);
-        printf("%d",acervo[i].ano);
-        printf("%s",acervo[i].editora);
+        printf("\n== LIVRO %d == \n", i + 1);
+        printf("Código: %d\n", acervo[i].codigo);
+        printf("Título: %s\n", acervo[i].titulo);
+        printf("Autor: %s\n", acervo[i].autor);
+        printf("Área: %s\n", acervo[i].area);
+        printf("Ano: %d\n", acervo[i].ano);
+        printf("Editora: %s\n", acervo[i].editora);
         printf("-------------------------------------");
     }
 }
@@ -96,11 +101,12 @@ while (numeroMenu != 5){
 
     printf("Escolha uma das opções a seguir... \n");
 
-    printf("1 - Cadastrar livros");
+    printf("1 - Cadastrar livros \n");
     printf("2 - Imprimir todos os livros \n");
     printf("3 - Pesquisar livro por código \n");
     printf("4 - Ordenar livros por ano de publicação \n");
     printf("5 - Sair do programa \n");
+    printf("-------------------------------------------------------------------\n");
     scanf("%d",&numeroMenu);
     
 
@@ -110,30 +116,35 @@ while (numeroMenu != 5){
 
         break;
         
-    case 2 : // função imprimirLivros;
+    case 2 : imprimirLivros(acervo,quantidadeLivros);
 
         break;
         
-    case 3 : // função pesquisa;
+    case 3 : // função pesquisa (ainda fazer);
 
         break;
         
-    case 4 : // função ordenação;
+    case 4 : // função ordenação (ainda fazer);
 
         break;
         
-    case 5 : // função encerra;
+    case 5 : //encerra;
 
-        break;
-        
-    
-    default: ("Número inválido. Por favor digitar corretamente...");
         break;
     }
-    
 }
  
    
 
     return 0;
 }
+
+
+
+/*
+
+O QUE FAZER NA VOLTA?????
+- Preciso ver como resolver a parte do Usuário  cadastrar 20 livros e sobrescrever 
+-limpar o MENU QUANDO DIGITIAR um numero errado
+
+*/
