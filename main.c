@@ -1,4 +1,5 @@
     #include <stdio.h>
+    #include <string.h>
     #define TAMANHO_ACERVO 20
 
     /*Imagine que você foi contratado para desenvolver um sistema de gerenciamento de livros
@@ -17,7 +18,7 @@
     char sair[4];
 
 
-
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // CADASTRAR LIVROS 
     int quantidadeLivros = 0;
     void cadastrarLivros(struct Livro acervo[], int tamanho){
@@ -61,12 +62,15 @@
             printf("Editora do livro %d:",i+1);
             scanf("%s", acervo[i].editora);
             fflush(stdin);
-        }}
-
-       
-        
+        }}  
     };
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // IMPRESSÃO DE LIVROS
     void imprimirLivros(struct Livro acervo[], int tamanho){
         if (tamanho == 0){
@@ -77,7 +81,7 @@
             return;
         }
 
-        printf("===== IMPRIMIR LIVROS ===== \n");
+        printf("===== LIVROS IMPRESSOS ===== \n");
 
         for (int i = 0; i < tamanho; i++){
             printf("\n== LIVRO %d == \n", i + 1);
@@ -90,13 +94,72 @@
             printf("-------------------------------------");
         }
     }
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-    void pesquisarLivro(struct Livro acervo[], int tamanho, int codigoBusca);
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    void pesquisarLivro(struct Livro acervo[], int tamanho, int codigoBusca){
+        printf("======================================================== \n");
+        printf("Seja bem vindo(a) ao menu de pesquisa!\n");
+        printf("======================================================== \n");
+        
+        printf("Para fazer a pesquisa de um livro, escolha uma das opções a seguir...\n");
+    
+    
+        int MenuPesquisa = 0;
+        
+        
+        
+
+        while (MenuPesquisa != 7){
+    
+            switch (MenuPesquisa){
+                case 1 : //pesquisa por codigo (ADICIONAR FUNÇÃO)
+
+                   break;
+            
+                    case 2 : //pesquisa por titulo (ADICIONAR FUNÇÃO)
+
+                            break;
+            
+                               case 3 : //pesquisa por autor (ADICIONAR FUNÇÃO)
+
+                                     break;
+            
+                                          case 4 : //pesquisa por ano (ADICIONAR FUNÇÃO)
+
+                                                break;
+            
+                                                      case 5 : // pesquisa por area (ADICIONAR FUNÇÃO)
+
+                                                          break;
+                                                              case 6 : // pesquisa por editora; (ADICIONAR FUNÇÃO)
+
+                                                                  break;
+                                                                     case 7 : //encerra;
+
+                                                                           break;
+        }
+    }
+};
+
+
+// ========================================================================
+        char pesquisa[100];
+        // strstr --> pesquisa (lugarDaBusca , PalavraPesquisada)
+        char resultado_da_busca = strstr(acervo->titulo,pesquisa); 
+// ========================================================================
+
+        
+ 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     void ordenarLivros(struct Livro acervo[], int tamanho);
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 // CODIGO PRINCIPAL MAIN
@@ -149,6 +212,7 @@
         return 0;
     }
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
     /*
