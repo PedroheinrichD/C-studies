@@ -15,7 +15,6 @@
             int ano;
             char editora[30];
         };
-    char sair[4];
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40,6 +39,7 @@
         }else{
         
         for (int i = 0; i < quantidadeLivros; i++){
+             printf("-------------------------------------------------------------------------\n");
             printf("Código do livro %d : ",i+1);
             scanf("%d", &acervo[i].codigo);
 
@@ -91,7 +91,7 @@
             printf("Área: %s\n", acervo[i].area);
             printf("Ano: %d\n", acervo[i].ano);
             printf("Editora: %s\n", acervo[i].editora);
-            printf("-------------------------------------");
+            printf("------------------------------------- \n");
         }
     }
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -100,57 +100,57 @@
 
 
 
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    void pesquisarLivro(struct Livro acervo[], int tamanho, int codigoBusca){
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------    
+// PESQUISA DE LIVROS
+int pesquisa_Codigo; 
+void pesquisarLivro(struct Livro acervo[], int tamanho, int codigoBusca){
         printf("======================================================== \n");
         printf("Seja bem vindo(a) ao menu de pesquisa!\n");
         printf("======================================================== \n");
-        
-        printf("Para fazer a pesquisa de um livro, escolha uma das opções a seguir...\n");
-    
-    
-        int MenuPesquisa = 0;
-        
-        
-        
 
-        while (MenuPesquisa != 7){
-    
-            switch (MenuPesquisa){
-                case 1 : //pesquisa por codigo (ADICIONAR FUNÇÃO)
-
-                   break;
-            
-                    case 2 : //pesquisa por titulo (ADICIONAR FUNÇÃO)
-
-                            break;
-            
-                               case 3 : //pesquisa por autor (ADICIONAR FUNÇÃO)
-
-                                     break;
-            
-                                          case 4 : //pesquisa por ano (ADICIONAR FUNÇÃO)
-
-                                                break;
-            
-                                                      case 5 : // pesquisa por area (ADICIONAR FUNÇÃO)
-
-                                                          break;
-                                                              case 6 : // pesquisa por editora; (ADICIONAR FUNÇÃO)
-
-                                                                  break;
-                                                                     case 7 : //encerra;
-
-                                                                           break;
+        if (tamanho == 0){
+            printf("--------------------------------- \n");
+            printf("Nenhum livro cadastrado ainda.\n");
+            printf("--------------------------------- \n");
+            fflush(stdin);
+            return;
         }
-    }
+        
+
+        printf("Para fazer a pesquisa de um livro, digite o CÓDIGO do livro... Valor MAX = [9] \n");
+        scanf("%d",&codigoBusca);
+             int i = 0;
+         while(i < tamanho){
+                  acervo[i].codigo;
+                 
+             if (acervo[i].codigo == codigoBusca){
+                  printf("-------------------------------------\n");
+                  printf("Livro ENCONTRADO! \n");
+                  printf("-------------------------------------\n");
+                  printf("\n== LIVRO == \n");
+                  printf("codigo: %d\n", acervo[i].codigo);// codigo só cabe até 9 char
+                  printf("Título: %s\n", acervo[i].titulo);
+                  printf("Área: %s\n", acervo[i].area);
+                  printf("Ano: %d\n", acervo[i].ano);
+                  printf("Editora: %s\n", acervo[i].editora);
+                  printf("-------------------------------------\n");
+                  return;
+             }
+             i++;
+         };
+         // CASO o codigo não seja encontrado
+         printf("--------------------------------- \n");
+         printf("Livro com código %d nao encontrado.\n", codigoBusca);
+         printf("--------------------------------- \n");
+             
+             
+             
 };
 
 
 // ========================================================================
-        char pesquisa[100];
-        // strstr --> pesquisa (lugarDaBusca , PalavraPesquisada)
-        char resultado_da_busca = strstr(acervo->titulo,pesquisa); 
+       
+        
 // ========================================================================
 
         
@@ -193,7 +193,7 @@
 
             break;
             
-        case 3 : // função pesquisa (ainda fazer);
+        case 3 : pesquisarLivro(acervo,TAMANHO_ACERVO,pesquisa_Codigo);
 
             break;
             
