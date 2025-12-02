@@ -1,199 +1,192 @@
-    #include <stdio.h>
-    #include <string.h>
-    #define TAMANHO_ACERVO 20
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h> 
+#define TAMANHO_ACERVO 20
 
-    /*Imagine que você foi contratado para desenvolver um sistema de gerenciamento de livros
-    para uma pequena biblioteca. O sistema deve permitir que o bibliotecário cadastre, pesquise,
-    ordene e gerencie o acervo de 20 livros.
-    Esta tarefa exigirá a aplicação de diversos conceitos fundamentais da linguagem C.
-    */
-    struct Livro{
-            int codigo;
-            char titulo[50];
-            char autor[30];
-            char area[30];
-            int ano;
-            char editora[30];
-        };
+/* Definição da Estrutura Livro */
+struct Livro{
+    int codigo;
+    char titulo[50];
+    char autor[30];
+    char area[30];
+    int ano;
+    char editora[30];
+};
+
+// Variáveis globais  para armazenar a contagem real de livros 
+int quantidadeLivros = 0; 
+int pesquisa_Codigo = 0; 
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // CADASTRAR LIVROS 
-    int quantidadeLivros = 0;
-    void cadastrarLivros(struct Livro acervo[], int tamanho){
-        printf("===== CADASTRO DE LIVROS ===== \n");
+// CADASTRAR LIVROS 
+void cadastrarLivros(struct Livro acervo[], int tamanho){
+    printf("===== CADASTRO DE LIVROS ===== \n");
+    
+    int qtdParaCadastrar; // Variável para a quantidade de livros que o usuário quer cadastrar.
+
+    // usuario digita que quer cadastrar 5 livros, tamanho é 20 e a quantidadeLivros é 5 que o usuario digitou
+    printf("Quantos livros deseja cadastrar? (Máx. %d disponíveis)\n", tamanho - quantidadeLivros); // 20 -5 = 15 livros restantes
+    scanf("%d", &qtdParaCadastrar);
+
+    // Garante que o programa ignore qualquer lixo que tenha sobrado na entrada
+    while (getchar() != '\n'); 
+
+    // O início do cadastro será na posição onde o acervo parou.
+    int inicio = quantidadeLivros;
+
+    if (qtdParaCadastrar < 1 || (inicio + qtdParaCadastrar) > tamanho) {
+        printf("--------------------------------- \n");
+        printf("Valor inválido ou acervo cheio! Tente novamente.\n");
+        printf("--------------------------------- \n");
+        return; 
+    }
+    
+    // loop começa onde o acervo parou (inicio) e vai até o total desejado.
+    for (int i = inicio; i < inicio + qtdParaCadastrar; i++){ 
+        printf("-------------------------------------------------------------------------\n");
         
-        printf("Quantos livros deseja cadastrar? \n");
-        scanf("%d",&quantidadeLivros);
-        fflush(stdin);
+        printf("Código do livro %d : ",i+1);
+        scanf("%d", &acervo[i].codigo);
+        while (getchar() != '\n'); // Limpar após ler o inteiro
 
-        // verificação caso o usuario digite um valor menor que 1 e maior que o tamanho MAX = 20
-        if (quantidadeLivros < 1 || quantidadeLivros > tamanho) {
-            printf("--------------------------------- \n");
-            printf("Valor inválido! Tente novamente.\n");
-            printf("--------------------------------- \n");
+        // scanf(" %[^\n]") permite ler strings com espaços.
+        printf("Título do livro %d : ",i+1);
+        printf("(Sem limite de espaços):\n");
+        scanf(" %[^\n]", acervo[i].titulo);
 
-        }else{
+        printf("Autor(a) do livro %d : ",i+1);
+        scanf(" %[^\n]", acervo[i].autor);
+
+        printf("Área do livro %d: ",i+1);
+        scanf(" %[^\n]", acervo[i].area);
+
+        printf("Ano do livro %d: ",i+1);
+        scanf("%d", &acervo[i].ano);
+        while (getchar() != '\n'); // Limpar após ler o inteiro
+
+        printf("Editora do livro %d:",i+1);
+        scanf(" %[^\n]", acervo[i].editora);
         
-        for (int i = 0; i < quantidadeLivros; i++){
-             printf("-------------------------------------------------------------------------\n");
-            printf("Código do livro %d : ",i+1);
-            scanf("%d", &acervo[i].codigo);
-
-            printf("Título do livro %d : ",i+1);
-            scanf(" %s", acervo[i].titulo);
-            fflush(stdin);
-
-            printf("Autor(a) do livro %d : ",i+1);
-            scanf(" %s", acervo[i].autor);
-            fflush(stdin);
-
-            printf("Área do livro %d: ",i+1);
-            scanf(" %s", acervo[i].area);
-            fflush(stdin);
-
-            printf("Ano do livro %d: ",i+1);
-            scanf("%d", &acervo[i].ano);
-            fflush(stdin);
-
-            printf("Editora do livro %d:",i+1);
-            scanf(" %s", acervo[i].editora);
-            fflush(stdin);
-        }}  
-    };
+        // Atualiza a variável global/local do acervo para o novo total
+        quantidadeLivros++; 
+    }
+    printf("\n%d livro(s) cadastrado(s)! Total: %d.\n", qtdParaCadastrar, quantidadeLivros);
+};
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // IMPRESSÃO DE LIVROS
-    void imprimirLivros(struct Livro acervo[], int tamanho){
-        if (tamanho == 0){
-            printf("--------------------------------- \n");
-            printf("Nenhum livro cadastrado ainda.\n");
-            printf("--------------------------------- \n");
-            fflush(stdin);
-            return;
-        }
+void imprimirLivros(struct Livro acervo[], int tamanho){
+    if (tamanho == 0){
+        printf("--------------------------------- \n");
+        printf("Nenhum livro cadastrado ainda.\n");
+        printf("--------------------------------- \n");
+        return;
+    }
 
-        printf("===== LIVROS IMPRESSOS ===== \n");
+    printf("===== LIVROS IMPRESSOS (%d) ===== \n", tamanho);
 
-        for (int i = 0; i < tamanho; i++){
-            printf("\n== LIVRO %d == \n", i + 1);
+    for (int i = 0; i < tamanho; i++){ // Percorre apenas o tamanho 
+        printf("\n== LIVRO %d == \n", i + 1);
+        printf("Código: %d\n", acervo[i].codigo);
+        printf("Título: %s\n", acervo[i].titulo);
+        printf("Autor: %s\n", acervo[i].autor);
+        printf("Área: %s\n", acervo[i].area);
+        printf("Ano: %d\n", acervo[i].ano);
+        printf("Editora: %s\n", acervo[i].editora);
+        printf("------------------------------------- \n");
+    }
+}
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------    
+// PESQUISA DE LIVROS
+void pesquisarLivro(struct Livro acervo[], int tamanho, int codigoBusca){ 
+    
+    printf("Para fazer a pesquisa de um livro, digite o CÓDIGO do livro:\n");
+    scanf("%d",&codigoBusca);
+    while (getchar() != '\n'); // Limpar após ler o inteiro
+
+    if (tamanho == 0){
+        printf("--------------------------------- \n");
+        printf("Nenhum livro cadastrado ainda para pesquisar.\n");
+        printf("--------------------------------- \n");
+        return;
+    }
+    
+    int encontrado = 0;
+    int i = 0;
+    
+    while(i < tamanho){
+        if (acervo[i].codigo == codigoBusca){
+            printf("-------------------------------------\n");
+            printf("Livro ENCONTRADO! \n");
+            printf("-------------------------------------\n");
+            printf("\n== LIVRO == \n");
             printf("Código: %d\n", acervo[i].codigo);
             printf("Título: %s\n", acervo[i].titulo);
             printf("Autor: %s\n", acervo[i].autor);
             printf("Área: %s\n", acervo[i].area);
             printf("Ano: %d\n", acervo[i].ano);
             printf("Editora: %s\n", acervo[i].editora);
-            printf("------------------------------------- \n");
+            printf("-------------------------------------\n");
+            encontrado = 1;
+            break; // Boa prática: parar a busca ao encontrar.
         }
-    }
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------    
-// PESQUISA DE LIVROS
-int pesquisa_Codigo; 
-void pesquisarLivro(struct Livro acervo[], int tamanho, int codigoBusca){
-        printf("======================================================== \n");
-        printf("Seja bem vindo(a) ao menu de pesquisa!\n");
-        printf("======================================================== \n");
-
-        if (tamanho == 0){
-            printf("--------------------------------- \n");
-            printf("Nenhum livro cadastrado ainda.\n");
-            printf("--------------------------------- \n");
-            fflush(stdin);
-            return;
-        }
-        
-
-        printf("Para fazer a pesquisa de um livro, digite o CÓDIGO do livro... Valor MAX = [9] \n");
-        scanf("%d",&codigoBusca);
-             int i = 0;
-         while(i < tamanho){
-                  acervo[i].codigo;
-                 
-             if (acervo[i].codigo == codigoBusca){
-                  printf("-------------------------------------\n");
-                  printf("Livro ENCONTRADO! \n");
-                  printf("-------------------------------------\n");
-                  printf("\n== LIVRO == \n");
-                  printf("codigo: %d\n", acervo[i].codigo);// codigo só cabe até 9 char
-                  printf("Título: %s\n", acervo[i].titulo);
-                  printf("Área: %s\n", acervo[i].area);
-                  printf("Ano: %d\n", acervo[i].ano);
-                  printf("Editora: %s\n", acervo[i].editora);
-                  printf("-------------------------------------\n");
-                  return;
-             }
-             i++;
-         };
-         // CASO o codigo não seja encontrado
-         printf("--------------------------------- \n");
-         printf("Livro com código %d nao encontrado.\n", codigoBusca);
-         printf("--------------------------------- \n");
-             
-             
-             
+        i++;
+    };
+    
+    if (!encontrado){
+        printf("--------------------------------- \n");
+        printf("Livro com código %d nao encontrado.\n", codigoBusca);
+        printf("--------------------------------- \n");
+    } 
 };
 
 
-        
- 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // ORNDENAR LIVROS
-    void ordenarLivros(struct Livro acervo[], int tamanho){
-     struct Livro temp;  
+void ordenarLivros(struct Livro acervo[], int tamanho){
+    struct Livro temp;
 
+    if (tamanho < 2){
+        printf("Não há livros suficientes para ordenar (min. 2).\n");
+        return;
+    }
 
-    // controla quantas vezes vamos percorrer o vetor
-    // Percorremos até tamanho - 1 porque com um elemento apenas, não há com quem comparar
     for(int i = 0; i < tamanho - 1; i++) {
-
-        
-        for(int j = 0; j < tamanho - i - 1; j++) {//Esse for só percorre até onde ainda faz sentido comparar, ignorando o que já está ordenado no final.
-
-            if(acervo[j].ano > acervo[j+1].ano) {// - Se o ano atual é maior que o ano do próximo
-
-                temp = acervo[j]; // Salva o valor atual em temp
-                acervo[j] = acervo[j+1]; // Move o próximo para a posição atual
-                acervo[j+1] = temp; // Coloca o valor original na próxima posição
+        for(int j = 0; j < tamanho - i - 1; j++) {
+            if(acervo[j].ano > acervo[j+1].ano) {
+                temp = acervo[j];
+                acervo[j] = acervo[j+1];
+                acervo[j+1] = temp;
             }
         }
-
-        /*
-            Após a 1ª passada completa:
-            → O MAIOR ano estará na última posição
-            Após a 2ª passada:
-            → O segundo maior estará na penúltima
-            ...
-        */
     }
 
     printf("\nLivros ordenados por ano com sucesso!\n");
-    }
+}
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 // CODIGO PRINCIPAL MAIN
-    int main(){
-        struct Livro acervo[TAMANHO_ACERVO];
-        int numeroMenu = 0;
+int main(){
+    struct Livro acervo[TAMANHO_ACERVO];
+    int numeroMenu = 0;
+    
     while (numeroMenu != 5){
-        // MENU
+        // system("cls"); // limpeza Para Windows
+        // system("clear"); // limpeza Para Linux/Mac
+        
         printf("======================================================== \n");
         printf("Seja bem vindo(a) ao menu principal! \n");
         printf("======================================================== \n");
 
-        printf("Escolha uma das opções a seguir... \n");
+        printf("Escolha uma das opções a seguir... (Livros cadastrados: %d)\n", quantidadeLivros);
 
         printf("1 - Cadastrar livros \n");
         printf("2 - Imprimir todos os livros \n");
@@ -201,45 +194,39 @@ void pesquisarLivro(struct Livro acervo[], int tamanho, int codigoBusca){
         printf("4 - Ordenar livros por ano de publicação \n");
         printf("5 - Sair do programa \n");
         printf("-------------------------------------------------------------------\n");
-        scanf("%d",&numeroMenu);
         
+       
+        if (scanf("%d",&numeroMenu) != 1) {
+            // Se o usuário digitar algo que não é número
+            numeroMenu = 0; // Força a entrada no default e limpa o buffer
+            while (getchar() != '\n');  // Limpar o buffer 
+        }
+        
+       
+    
 
-        
         switch (numeroMenu){
-        case 1 : cadastrarLivros(acervo,TAMANHO_ACERVO);
-
-            break;
+            case 1 : cadastrarLivros(acervo, TAMANHO_ACERVO);
+                break;
+                
+            case 2 : imprimirLivros(acervo, quantidadeLivros); 
+                break;
+                
             
-        case 2 : imprimirLivros(acervo,quantidadeLivros);
-
-            break;
-            
-        case 3 : pesquisarLivro(acervo,quantidadeLivros,pesquisa_Codigo);
-
-            break;
-            
-        case 4 : ordenarLivros(acervo,quantidadeLivros);
-
-            break;
-            
-        case 5 : //encerra;
-
-            break;
+            case 3 : pesquisarLivro(acervo, quantidadeLivros, pesquisa_Codigo); 
+                break;
+                
+            case 4 : ordenarLivros(acervo, quantidadeLivros); 
+                break;
+                
+            case 5 : 
+                printf("Encerrando o sistema de biblioteca...\n");
+                break;
+                
+            default:
+                printf("Opção inválida! Digite um número de 1 a 5.\n");
         }
     }
     
-    
-
-        return 0;
-    }
-
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-    /*
-
-    O QUE FAZER NA VOLTA?????
-    - Preciso ver como resolver a parte do Usuário poder cadastrar 20 livros e sobrescrever 
-    -limpar o MENU QUANDO DIGITIAR um numero errado
-
-    */
+    return 0;
+}
