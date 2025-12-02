@@ -33,9 +33,6 @@
             printf("Valor inválido! Tente novamente.\n");
             printf("--------------------------------- \n");
 
-            // voltando pro cadastro caso o valor seja invalido
-            cadastrarLivros(acervo,quantidadeLivros);
-
         }else{
         
         for (int i = 0; i < quantidadeLivros; i++){
@@ -44,15 +41,15 @@
             scanf("%d", &acervo[i].codigo);
 
             printf("Título do livro %d : ",i+1);
-            scanf("%s", acervo[i].titulo);
+            scanf(" %s", acervo[i].titulo);
             fflush(stdin);
 
             printf("Autor(a) do livro %d : ",i+1);
-            scanf("%s", acervo[i].autor);
+            scanf(" %s", acervo[i].autor);
             fflush(stdin);
 
             printf("Área do livro %d: ",i+1);
-            scanf("%s", acervo[i].area);
+            scanf(" %s", acervo[i].area);
             fflush(stdin);
 
             printf("Ano do livro %d: ",i+1);
@@ -60,7 +57,7 @@
             fflush(stdin);
 
             printf("Editora do livro %d:",i+1);
-            scanf("%s", acervo[i].editora);
+            scanf(" %s", acervo[i].editora);
             fflush(stdin);
         }}  
     };
@@ -148,16 +145,40 @@ void pesquisarLivro(struct Livro acervo[], int tamanho, int codigoBusca){
 };
 
 
-// ========================================================================
-       
-        
-// ========================================================================
-
         
  
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ORNDENAR LIVROS
+    void ordenarLivros(struct Livro acervo[], int tamanho){
+     struct Livro temp;  
 
-    void ordenarLivros(struct Livro acervo[], int tamanho);
+
+    // controla quantas vezes vamos percorrer o vetor
+    // Percorremos até tamanho - 1 porque com um elemento apenas, não há com quem comparar
+    for(int i = 0; i < tamanho - 1; i++) {
+
+        
+        for(int j = 0; j < tamanho - i - 1; j++) {//Esse for só percorre até onde ainda faz sentido comparar, ignorando o que já está ordenado no final.
+
+            if(acervo[j].ano > acervo[j+1].ano) {// - Se o ano atual é maior que o ano do próximo
+
+                temp = acervo[j]; // Salva o valor atual em temp
+                acervo[j] = acervo[j+1]; // Move o próximo para a posição atual
+                acervo[j+1] = temp; // Coloca o valor original na próxima posição
+            }
+        }
+
+        /*
+            Após a 1ª passada completa:
+            → O MAIOR ano estará na última posição
+            Após a 2ª passada:
+            → O segundo maior estará na penúltima
+            ...
+        */
+    }
+
+    printf("\nLivros ordenados por ano com sucesso!\n");
+    }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -193,11 +214,11 @@ void pesquisarLivro(struct Livro acervo[], int tamanho, int codigoBusca){
 
             break;
             
-        case 3 : pesquisarLivro(acervo,TAMANHO_ACERVO,pesquisa_Codigo);
+        case 3 : pesquisarLivro(acervo,quantidadeLivros,pesquisa_Codigo);
 
             break;
             
-        case 4 : // função ordenação (ainda fazer);
+        case 4 : ordenarLivros(acervo,quantidadeLivros);
 
             break;
             
