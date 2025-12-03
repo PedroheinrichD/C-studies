@@ -53,7 +53,6 @@ void cadastrarLivros(struct Livro acervo[], int tamanho){
 
         // scanf(" %[^\n]") permite ler strings com espaços.
         printf("Título do livro %d : ",i+1);
-        printf("(Sem limite de espaços):\n");
         scanf(" %[^\n]", acervo[i].titulo);
 
         printf("Autor(a) do livro %d : ",i+1);
