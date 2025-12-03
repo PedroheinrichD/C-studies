@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h> 
+#include <stdbool.h>
 #define TAMANHO_ACERVO 20
 
-/* Definição da Estrutura Livro */
+// Definição da Estrutura Livro 
 struct Livro{
     int codigo;
     char titulo[50];
@@ -13,7 +14,7 @@ struct Livro{
     char editora[30];
 };
 
-// Variáveis globais  para armazenar a contagem real de livros 
+// Variáveis globais  
 int quantidadeLivros = 0; 
 int pesquisa_Codigo = 0; 
 
@@ -98,7 +99,7 @@ void imprimirLivros(struct Livro acervo[], int tamanho){
         printf("Editora: %s\n", acervo[i].editora);
         printf("------------------------------------- \n");
     }
-}
+};
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -107,7 +108,7 @@ void imprimirLivros(struct Livro acervo[], int tamanho){
 void pesquisarLivro(struct Livro acervo[], int tamanho, int codigoBusca){ 
     
     printf("Para fazer a pesquisa de um livro, digite o CÓDIGO do livro:\n");
-    scanf("%d",&codigoBusca);
+    scanf("%d",&codigoBusca);// numeros inteiros na linguagem C vão até 9 digitos
     while (getchar() != '\n'); // Limpar após ler o inteiro
 
     if (tamanho == 0){
@@ -117,11 +118,11 @@ void pesquisarLivro(struct Livro acervo[], int tamanho, int codigoBusca){
         return;
     }
     
-    int encontrado = 0;
+    int encontrado = false;
     int i = 0;
     
     while(i < tamanho){
-        if (acervo[i].codigo == codigoBusca){
+        if (acervo[i].codigo == codigoBusca){ // eu comparando o código informado com o código de cada livro do acervo
             printf("-------------------------------------\n");
             printf("Livro ENCONTRADO! \n");
             printf("-------------------------------------\n");
@@ -133,13 +134,13 @@ void pesquisarLivro(struct Livro acervo[], int tamanho, int codigoBusca){
             printf("Ano: %d\n", acervo[i].ano);
             printf("Editora: %s\n", acervo[i].editora);
             printf("-------------------------------------\n");
-            encontrado = 1;
-            break; // Boa prática: parar a busca ao encontrar.
+            encontrado = true;
+            break; //interromper imediatamente a execução de um loop
         }
         i++;
     };
     
-    if (!encontrado){
+    if (encontrado == false){
         printf("--------------------------------- \n");
         printf("Livro com código %d nao encontrado.\n", codigoBusca);
         printf("--------------------------------- \n");
@@ -154,15 +155,17 @@ void ordenarLivros(struct Livro acervo[], int tamanho){
 
     if (tamanho < 2){
         printf("Não há livros suficientes para ordenar (min. 2).\n");
-        return;
+        return; // interrompe
     }
 
-    for(int i = 0; i < tamanho - 1; i++) {
-        for(int j = 0; j < tamanho - i - 1; j++) {
-            if(acervo[j].ano > acervo[j+1].ano) {
-                temp = acervo[j];
-                acervo[j] = acervo[j+1];
-                acervo[j+1] = temp;
+    
+    for(int i = 0; i < tamanho - 1; i++) { // i → controla as passadas.
+        for(int j = 0; j < tamanho - i - 1; j++) { // controla as comparações dentro de cada passada
+        //EX:           2018 / 2020 / 2011 / 2025 
+            if(acervo[j].ano > acervo[j+1].ano) { // Se o ano do livro atual for maior que o do próximo
+                temp = acervo[j];      // guarda 2020
+                acervo[j] = acervo[j+1]; // j recebe 2011
+                acervo[j+1] = temp;      // j+1 recebe 2020
             }
         }
     }
@@ -216,7 +219,7 @@ int main(){
             case 3 : pesquisarLivro(acervo, quantidadeLivros, pesquisa_Codigo); 
                 break;
                 
-            case 4 : ordenarLivros(acervo, quantidadeLivros); 
+            case 4 : ordenarLivros(acervo, quantidadeLivros);  // recebe acervo e a quantidade livros cadastrados no momento
                 break;
                 
             case 5 : 
